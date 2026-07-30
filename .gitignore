@@ -1,0 +1,8 @@
+target/
+.spin/
+.spin-aka/
+*.wasm
+redirects.txt
+validated_rules.txt
+sources.fst
+targets.fcsd
