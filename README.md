@@ -4,7 +4,7 @@ A high-performance, large-scale HTTP redirect service implemented as a Spin appl
 It uses a Finite State Transducer (FST) for efficient source path lookups and a Fast Compressed Static Dictionary (FCSD)
 for compact storage of target URLs using Wizer.
 
-**Based on**: This project is adapted from [akamai-developers/large-scale-redirects](https://github.com/akamai-developers/akamai-functions-samples/tree/main/samples/large-scale-redirects), ported to use Spin SDK 4.0 with the `#[http_component]` macro instead of the original Akamai EdgeWorkers implementation.
+**Based on**: This project is adapted from [akamai-developers/large-scale-redirects](https://github.com/akamai-developers/akamai-functions-samples/tree/main/samples/large-scale-redirects), ported to use Spin SDK 4.0 with the `#[http_component]` macro instead of the original wasi:http/incoming-handler implementation.
 
 ## Overview
 
@@ -336,8 +336,8 @@ See the [Akamai Functions documentation](https://techdocs.akamai.com/akamai-func
 
 - **redirects-rs (Wasm Component)**
   - Built with Spin SDK 4.0 using the `#[http_component]` macro
+  - The component runs in response to inbound HTTP requests that match the component’s trigger.
   - Pre-initialized static data structures via `wizer.initialize`
-  - Implements `wasi:http/incoming-handler` interface
   - Keeps memory usage constant regardless of request volume
   - Process:
     1. Extract URL path from incoming request
