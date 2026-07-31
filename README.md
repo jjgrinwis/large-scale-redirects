@@ -139,6 +139,17 @@ These are the optimized binary data files that power fast redirect lookups:
 
 This two-file architecture enables efficient storage of millions of redirects with minimal memory usage.
 
+**How `rules-manager` builds these files:**
+
+- Target URLs are sorted and deduplicated *before* encoding, so any number of sources redirecting to the same
+  destination all point to a single stored copy, referenced by index.
+- Source paths are inserted into the FST in sorted order, which is what allows `fst::MapBuilder` to minimize the
+  transducer — shared prefixes and suffixes across paths are automatically merged into a single compact graph rather
+  than stored per-entry.
+- The FCSD target dictionary is built with a fixed bucket size of 128 (`fcsd::Set::with_bucket_size`), which
+  front-codes (prefix-compresses) the sorted target strings in groups of 128 for fast, compact random access by
+  index.
+
 ### Build the CLI
 
 ```shell
